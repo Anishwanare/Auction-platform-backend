@@ -45,15 +45,13 @@ export const register = catchAsyncErrors(async (req, res, next) => {
             return next(new ErrorHandler(`Please fill full form ${userName}.`, 400));
         }
 
-        // Additional validation for Auctioneer role
-        //will add logic min one payment method to select
         if (role === "Auctioneer") {
-            if (accountNumber || bankName || bankIFSCCode) {
+            if (!accountNumber || !bankName || !bankIFSCCode) {
                 return next(
                     new ErrorHandler("Please fill full bank details for Auctioneer.", 400)
                 );
             }
-            if (razorpayAccountNumber) {
+            if (!razorpayAccountNumber) {
                 return next(
                     new ErrorHandler(
                         "Please fill Razorpay Account Number for Auctioneer.",
@@ -61,7 +59,7 @@ export const register = catchAsyncErrors(async (req, res, next) => {
                     )
                 );
             }
-            if (paypalEmail) {
+            if (!paypalEmail) {
                 return next(
                     new ErrorHandler("Please fill PayPal Email for Auctioneer.", 400)
                 );

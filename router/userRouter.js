@@ -11,7 +11,6 @@ router.get('/me', isAuthenticated, getUsersProfile)
 router.delete("/users/:id", deleteUser)
 router.put("/users/:id", isAuthenticated, updateUserProfile)
 router.get("/logout", isAuthenticated, logoutUser)
-
 router.get("/leaderboard", fetchLeaderBoard)
 
 export default router;

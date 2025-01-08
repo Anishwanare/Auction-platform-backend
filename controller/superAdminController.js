@@ -51,7 +51,7 @@ export const getSuperAdminProfile = catchAsyncErrors(async (req, res, next) => {
 })
 
 
-export const removeAuctionItem = catchAsyncErrors(async (req, res, next) => {
+export const delteAuctionItem = catchAsyncErrors(async (req, res, next) => {
     const { id } = req.params;
 
     // Check if the auction ID is provided
@@ -65,25 +65,20 @@ export const removeAuctionItem = catchAsyncErrors(async (req, res, next) => {
     }
 
     try {
-        // Find the auction item by ID
         const auctionItem = await auctionModel.findById(id);
 
-        // Check if the auction item exists
         if (!auctionItem) {
             return next(new ErrorHandler("Auction Item not found", 404));
         }
 
-
         // Delete the auction item
         await auctionItem.deleteOne();
 
-        // Return success response
         return res.status(200).json({
             success: true,
             message: "Auction Item deleted successfully",
         });
     } catch (error) {
-        // Handle any server error
         return res.status(500).json({
             success: false,
             message: "Failed to delete Auction Item",
@@ -182,7 +177,6 @@ export const updatePaymentProof = catchAsyncErrors(async (req, res, next) => {
     }
 });
 
-
 export const deletePaymentProof = catchAsyncErrors(async (req, res, next) => {
     const { id } = req.params;
     if (!id || !mongoose.Types.ObjectId.isValid(id)) {
@@ -231,6 +225,35 @@ export const fetchAllUsers = catchAsyncErrors(async (req, res, next) => {
             error: error.message
         })
     }
+})
+
+// delete user
+export const deleteUsers = catchAsyncErrors(async (req, res, next) => {
+    try {
+        const { id } = req.params;
+        if (!id ) {
+            return next(new ErrorHandler('Id not found', 404))
+        }
+        let deleteUser = await userModel.findById(id)
+
+        if (!deleteUser) {
+            return next(new ErrorHandler(`${deleteUser} not found`, 400))
+        }
+        await deleteUser.deleteOne()
+        return res.status(200).json({
+            success: true,
+            message: `${deleteUser.userName} Deleted Successfully`,
+            deleteUser
+        })
+
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong",
+            error: error.message
+        })
+    }
+
 })
 
 export const fetchAllAuctionItems = catchAsyncErrors(async (req, res, next) => {
@@ -361,9 +384,6 @@ export const getAdminProfile = catchAsyncErrors(async (req, res, next) => {
         });
     }
 });
-
-
-
 
 
 export const deleteMessage = catchAsyncErrors(async (req, res, next) => {
