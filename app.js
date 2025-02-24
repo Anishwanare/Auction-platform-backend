@@ -42,9 +42,9 @@ app.use('/api/v2/auction', auctionItemRouter)
 app.use('/api/v3/auction/bid', bidsRouter)
 app.use('/api/v4/auction/commission', commisionRouter)
 app.use('/api/v4/superadmin', superadminRouter)
+endedAuctionCron
 
-
-endedAuctionCron()
+()
 verifyCommissionCron()
 
 databaseConnection();

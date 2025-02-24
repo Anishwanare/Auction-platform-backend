@@ -342,7 +342,7 @@ export const republishAuctionItem = catchAsyncErrors(async (req, res, next) => {
             new: true,
             runValidators: true,
         });
-
+a
         // Save the updated auction item
         await republishItem.save({
             validateBeforeSave: true,
