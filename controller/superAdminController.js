@@ -15,10 +15,12 @@ export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
             .cookie("SuperAdmin_Token", "", {
                 expires: new Date(Date.now()), // Expire the SuperAdmin_Token cookie
                 httpOnly: true,
+                secure: process.env.NODE_ENV === "production", // Ensure secure cookies in production
+                sameSite: "None",
             })
             .json({
                 success: true,
-                message: `${req.superAdmin?.role} logged out successfully`,
+                message: `${req.superAdmin?.role || "Admin"} logged out successfully`,
             });
     } catch (error) {
         return res.status(500).json({
@@ -27,7 +29,7 @@ export const logoutAdmin = catchAsyncErrors(async (req, res, next) => {
             error: error.message,
         });
     }
-})
+});
 
 export const getSuperAdminProfile = catchAsyncErrors(async (req, res, next) => {
     try {
