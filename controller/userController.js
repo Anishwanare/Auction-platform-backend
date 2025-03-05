@@ -329,10 +329,14 @@ export const logoutUser = catchAsyncErrors(async (req, res) => {
             .cookie("Auctioneer_Token", "", {
                 expires: new Date(Date.now()), // Expire the Auctioneer_Token cookie
                 httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "None",
             })
             .cookie("Bidder_Token", "", {
                 expires: new Date(Date.now()), // Expire the Bidder cookie
                 httpOnly: true,
+                secure: process.env.NODE_ENV === "production",
+                sameSite: "None",
             })
             .json({
                 success: true,
